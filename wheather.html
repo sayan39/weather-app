@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Weather App</title>
+        <link rel="stylesheet"  type="text/css" href="wheather.css"/>
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+    <body onload="getLocation()">
+        <p id="demo"></p>
+      <div class="card">
+            <input type="text" id="name" placeholder="Enter city Name">
+            <button onclick="findWeather()" class="button"><i class="fa fa-search"></i></button>
+            <br>
+            <div>
+                <img src="rain.png" id="m" class="icon">
+                <h1 id="temp" >22°C</h1>
+                <h2 id="city">newyork</h2>
+            </div>
+           <div class="details">
+            <div class="col">
+              <img src="humidity.png">
+              <div>
+                <p class="humadity" id="humadity">50%</p>
+                <p>humidity</p>
+              </div>
+            </div>
+            <div class="col">
+              <img src="wind.png">
+              <div>
+                <p class="wind" id="wind">15 km/h</p>
+                <p>wind speed</p>
+              </div>
+            </div>
+           </div>
+            <div id="result"></div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+
+        <script>
+            var x = document.getElementById("result");
+            
+            function getLocation() {
+              if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+              } else { 
+                x.innerHTML = "Geolocation is not supported by this browser.";
+              }
+            }
+            
+            function showPosition(position) {
+              //x.innerHTML = "Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude;
+
+              findWeatherByLatLong(position.coords.latitude, position.coords.longitude);
+            }
+
+
+        function findWeather()
+        {
+          
+            var name = document.getElementById("name").value;
+            var api = "da2760bdda059f6e6d1941e98044c005";
+            //Send that name to the web service with the help of AJAX
+            //To use AJAX need JQuery CDN
+
+            var link = "https://api.openweathermap.org/data/2.5/weather?units=metric&q="+name+"&appid="+api;
+            // window.alert(name);
+            $.ajax({
+                url: link,
+                method: "get",
+                data:{},
+                success: function(response)
+                {
+                  // console.log(72, response)
+                  // console.log(81,response.weather[0].main)
+                  
+                  document.getElementById('temp').innerHTML=response.main.temp + "°C";
+                  document.getElementById('city').innerHTML=response.name ;
+                  document.getElementById('humadity').innerHTML=response.main.humidity + "%";
+                  document.getElementById('wind').innerHTML=response.wind.speed + "km/h";
+
+                    if(response.weather[0].main=="Clouds")
+                    {
+                      document.getElementById('m').src = 'clouds.png';
+                    }
+                    else if(response.weather[0].main=="clear")
+                    {
+                      document.getElementById('m').src = 'clear.png';
+                    }
+                    else if(response.weather[0].main=="Drizzle")
+                    {
+                      document.getElementById('m').src = 'drizzle.png';
+                    }
+                    else if(response.weather[0].main=="Mist")
+                    {
+                      document.getElementById('m').src ='mist.png';
+                    }
+                    else if(response.weather[0].main=="Rain")
+                    {
+                      document.getElementById('m').src = 'rain.png';
+                    }
+                    else if(response.weather[0].main=="Snow")
+                    {
+                      document.getElementById('m').src = 'snow.png';
+                    }
+                    else if(response.weather[0].main=="Haze")
+                    {
+                      document.getElementById('m').src = 'haze.png';
+                    }
+                }
+            })
+
+            
+        }
+        
+        function findWeatherByLatLong(lat, long)
+        {
+            var api = "da2760bdda059f6e6d1941e98044c005";
+            //Send that name to the web service with the help of AJAX
+            //To use AJAX need JQuery CDN
+
+            var link = "https://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+long+"&appid="+api+"&units=metric";
+            // window.alert(name);
+            $.ajax({
+                url: link,
+                method: "get",
+                data:{},
+                success: function(response)
+                {
+                  // console.log(72, response)
+                  // console.log(81,response.weather[0].main)
+                  
+                  document.getElementById('temp').innerHTML=response.main.temp + "°C";
+                  document.getElementById('city').innerHTML=response.name ;
+                  document.getElementById('humadity').innerHTML=response.main.humidity + "%";
+                  document.getElementById('wind').innerHTML=response.wind.speed + "km/h";
+
+                    if(response.weather[0].main=="Clouds")
+                    {
+                      document.getElementById('m').src = 'clouds.png';
+                    }
+                    else if(response.weather[0].main=="clear")
+                    {
+                      document.getElementById('m').src = 'clear.png';
+                    }
+                    else if(response.weather[0].main=="Drizzle")
+                    {
+                      document.getElementById('m').src = 'drizzle.png';
+                    }
+                    else if(response.weather[0].main=="Mist")
+                    {
+                      document.getElementById('m').src ='mist.png';
+                    }
+                    else if(response.weather[0].main=="Rain")
+                    {
+                      document.getElementById('m').src = 'rain.png';
+                    }
+                    else if(response.weather[0].main=="Snow")
+                    {
+                      document.getElementById('m').src = 'snow.png';
+                    }
+                    else if(response.weather[0].main=="Haze")
+                    {
+                      document.getElementById('m').src = 'haze.png';
+                    }
+                }
+            })
+
+            
+        }
+        
+        </script>
+            
+    </body>
+</html>
